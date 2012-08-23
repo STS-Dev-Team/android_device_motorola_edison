@@ -28,10 +28,10 @@ BOARD_KERNEL_BASE := 0x80000000
 BOARD_PAGE_SIZE := 0x4096
 
 # Kernel Build
-TARGET_KERNEL_SOURCE := kernel/motorola/solana
+TARGET_KERNEL_SOURCE := kernel/motorola/mapphone
 TARGET_KERNEL_CONFIG := hashcode_1024_defconfig
 
-KERNEL_EXTERNAL_MODULES:
+WLAN_MODULES:
 	make clean -C hardware/ti/wlan/mac80211/compat_wl12xx
 	make -j8 -C hardware/ti/wlan/mac80211/compat_wl12xx KERNEL_DIR=$(KERNEL_OUT) KLIB=$(KERNEL_OUT) KLIB_BUILD=$(KERNEL_OUT) ARCH=arm CROSS_COMPILE="arm-eabi-"
 	mv hardware/ti/wlan/mac80211/compat_wl12xx/compat/compat.ko $(KERNEL_MODULES_OUT)
@@ -40,11 +40,8 @@ KERNEL_EXTERNAL_MODULES:
 	mv hardware/ti/wlan/mac80211/compat_wl12xx/drivers/net/wireless/wl12xx/wl12xx.ko $(KERNEL_MODULES_OUT)
 	mv hardware/ti/wlan/mac80211/compat_wl12xx/drivers/net/wireless/wl12xx/wl12xx_spi.ko $(KERNEL_MODULES_OUT)
 	mv hardware/ti/wlan/mac80211/compat_wl12xx/drivers/net/wireless/wl12xx/wl12xx_sdio.ko $(KERNEL_MODULES_OUT)
-	make clean -C vendor/motorola/common/proprietary/imgtec/eurasia_km/eurasiacon/build/linux2/omap4430_android
-	make -j8 -C vendor/motorola/common/proprietary/imgtec/eurasia_km/eurasiacon/build/linux2/omap4430_android ARCH=arm KERNEL_CROSS_COMPILE=arm-eabi- CROSS_COMPILE=arm-eabi- KERNELSRC=$(KERNEL_OUT)/../../../../../../kernel/motorola/solana KERNELDIR=$(KERNEL_OUT) TARGET_PRODUCT="blaze_tablet" BUILD=release TARGET_SGX=540 PLATFORM_VERSION=4.0
-	mv $(KERNEL_OUT)/../../target/kbuild/pvrsrvkm_sgx540_120.ko $(KERNEL_MODULES_OUT)
 
-TARGET_KERNEL_MODULES := KERNEL_EXTERNAL_MODULES
+TARGET_KERNEL_MODULES := WLAN_MODULES
 
 
 # Storage / Sharing
@@ -84,6 +81,7 @@ BOARD_HAVE_BLUETOOTH_BCM := true
 # Recovery
 BUILD_BOOTMENU_STANDALONE := true
 #BOARD_HAS_LOCKED_BOOTLOADER := true
+#BOARD_HAS_WEBTOP := true
 TARGET_PREBUILT_RECOVERY_KERNEL := device/motorola/edison/recovery-kernel
 BOARD_HAS_NO_SELECT_BUTTON := true
 BOARD_UMS_LUNFILE := "/sys/class/android_usb/android0/f_mass_storage/lun%d/file"
@@ -92,7 +90,6 @@ BOARD_HAS_LARGE_FILESYSTEM := true
 BOARD_MKE2FS := device/motorola/edison/releaseutils/mke2fs
 BOARD_NONSAFE_SYSTEM_DEVICE := /dev/block/mmcblk1p21
 BOARD_HAS_SDCARD_INTERNAL := true
-#BOARD_HAS_WEBTOP := true
 TARGET_RECOVERY_PRE_COMMAND := "echo 1 > /data/.recovery_mode; sync;"
 TARGET_RECOVERY_PRE_COMMAND_CLEAR_REASON := true
 TARGET_RECOVERY_PIXEL_FORMAT := "BGRA_8888"
@@ -101,12 +98,6 @@ BOARD_HAS_VIRTUAL_KEYS := true
 BOARD_VIRTUAL_KEY_HEIGHT := 64
 BOARD_MAX_TOUCH_X := 1024
 BOARD_MAX_TOUCH_Y := 1024
-
-# Sandbox Filesystem Settings
-BOARD_SYSTEM_DEVICE := /dev/block/system
-BOARD_SYSTEM_FILESYSTEM_OPTIONS := noatime,nodiratime
-BOARD_SYSTEM_FILESYSTEM := ext3
-
 
 # Graphics
 BOARD_EGL_CFG := device/motorola/edison/prebuilt/etc/egl.cfg
@@ -121,7 +112,7 @@ COMMON_GLOBAL_CFLAGS += -DOMAP_ENHANCEMENT -DTARGET_OMAP4
 endif
 
 ENHANCED_DOMX := true
-#USE_ITTIAM_AAC := true
+USE_ITTIAM_AAC := true
 ifdef USE_ITTIAM_AAC
 COMMON_GLOBAL_CFLAGS += -DUSE_ITTIAM_AAC
 endif

@@ -1,2 +1,2 @@
 PRODUCT_MAKEFILES := \
-    $(LOCAL_DIR)/device_edison.mk
+    $(LOCAL_DIR)/full_edison.mk
