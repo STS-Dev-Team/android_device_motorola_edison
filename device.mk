@@ -58,7 +58,7 @@ PRODUCT_COPY_FILES += \
     $(DEVICE_FOLDER)/root/ueventd.mapphone_cdma.rc:/system/etc/rootfs/ueventd.mapphone_cdma.rc \
     $(DEVICE_FOLDER)/root/ueventd.mapphone_umts.rc:/system/etc/rootfs/ueventd.mapphone_umts.rc \
     out/target/product/edison/root/init:system/etc/rootfs/init \
-    out/target/product/edison/oot/sbin/adbd:system/etc/rootfs/sbin/adbd
+    out/target/product/edison/root/sbin/adbd:system/etc/rootfs/sbin/adbd
 endif
 
 # Prebuilts
