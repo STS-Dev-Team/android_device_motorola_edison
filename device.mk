@@ -80,14 +80,14 @@ endif
 # copy all kernel modules under the "modules" directory to system/lib/modules
 ifneq ($(BOARD_USES_KEXEC),true)
 PRODUCT_COPY_FILES += $(shell \
-    find device/motorola/umts_spyder/modules -name '*.ko' \
+    find device/motorola/edison/modules -name '*.ko' \
     | sed -r 's/^\/?(.*\/)([^/ ]+)$$/\1\2:system\/lib\/modules\/\2/' \
     | tr '\n' ' ')
 endif
 
 $(call inherit-product, device/motorola/common/common.mk)
-$(call inherit-product-if-exists, vendor/motorola/edison/umts_spyder-vendor.mk)
+$(call inherit-product-if-exists, vendor/motorola/edison/edison-vendor.mk)
 ifneq ($(BOARD_USES_KEXEC),true)
-$(call inherit-product-if-exists, vendor/motorola/edison/umts_spyder-vendor-pvr.mk)
-$(call inherit-product-if-exists, vendor/motorola/edison/umts_spyder-vendor-stock-camera.mk)
+$(call inherit-product-if-exists, vendor/motorola/edison/edison-vendor-pvr.mk)
+$(call inherit-product-if-exists, vendor/motorola/edison/edison-vendor-stock-camera.mk)
 endif
