@@ -1,28 +1,22 @@
 # Inherit device configuration for Droid Atrix 2.
 $(call inherit-product, device/motorola/edison/full_edison.mk)
 
-# Inherit some common CM stuff.
-$(call inherit-product, vendor/cm/config/common_full_phone.mk)
+# Inherit common product files.
+$(call inherit-product, vendor/aokp/configs/common_phone.mk)
 
-# Inherit some common CM stuff.
-$(call inherit-product, vendor/cm/config/gsm.mk)
+# Inherit GSM common stuff
+$(call inherit-product, vendor/aokp/configs/gsm.mk)
 
-DEVICE_PACKAGE_OVERLAYS += device/motorola/edison/overlay/cm
+DEVICE_PACKAGE_OVERLAYS += device/motorola/edison/overlay/aokp
 
-#
 # Setup device specific product configuration.
-#
 PRODUCT_NAME := cm_edison
 PRODUCT_BRAND := ATT
 PRODUCT_DEVICE := edison
 PRODUCT_MODEL := MB865
 PRODUCT_MANUFACTURER := MOTO
-PRODUCT_RELEASE_NAME := MOTOROLA ATRIX 2
+PRODUCT_RELEASE_NAME := ATRIX 2
 PRODUCT_SFX := umts
-
-# Boot animation
-TARGET_SCREEN_HEIGHT := 960
-TARGET_SCREEN_WIDTH := 540
 
 UTC_DATE := $(shell date +%s)
 DATE := $(shell date +%Y%m%d)
@@ -37,3 +31,7 @@ PRODUCT_BUILD_PROP_OVERRIDES += \
    BUILD_UTC_DATE= \
    PRODUCT_DEFAULT_LANGUAGE=en \
    PRODUCT_DEFAULT_REGION=US \
+
+PRODUCT_COPY_FILES +=  \
+    vendor/aokp/prebuilt/bootanimation/bootanimation_540_960.zip:system/media/bootanimation.zip
+

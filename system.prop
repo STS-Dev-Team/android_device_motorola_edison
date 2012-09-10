@@ -1,5 +1,7 @@
+#
 # system.prop for Edison
 #
+
 rild.libpath=/system/lib/libu300-ril.so
 rild.libargs=-c CAIF -i rmnet
 ro.sf.lcd_density=240
@@ -17,7 +19,8 @@ ro.modem_available=0
 
 # wlan interface
 wifi.interface = wlan0
-softap.interface = wlan1
+softap.interface = wlan0
+wifi.ap.interface = wlan0
 
 # Time between scans in seconds. Keep it high to minimize battery drain.
 # This only affects the case in which there are remembered access points,
@@ -117,9 +120,7 @@ persist.ril.modem.ttydevice=/dev/ttySPI0
 persist.ril.features=0x06
 persist.ril.mux.retries=500
 persist.ril.mux.sleep=2
-ro.config.ringtone=ATT_Firefly.ogg
-ro.config.notification_sound=Kinetic_Bell.ogg
-persist.sys.usb.config=mtp
+ro.config.notification_sound=OnTheHunt.ogg
 ro.config.alarm_alert=Alarm_Classic.ogg
 ro.com.google.gmsversion=4.0_r2
 ro.crypto.state=unencrypted
@@ -167,7 +168,7 @@ ro.mot.dpmext=true
 ro.com.google.clientid=android-motorola
 ro.url.legal=http://www.google.com/intl/%s/mobile/android/basic/phone-legal.html
 ro.url.legal.android_privacy=http://www.google.com/intl/%s/mobile/android/basic/privacy.html
-ro.build.version.full=Blur_Version.67.21.123.MB865.ATT.en.US
+ro.build.version.full=JB_Version.4.1.1_r3.MB865.ATT.en.EU
 ro.mot.hidden_keyboards=evfwd
 ro.mot.build.version.sdk_int=6
 ro.mot.hw.fingerprint.enable=1
@@ -175,6 +176,11 @@ ro.mot.hw.fingerprint.enable=1
 ro.setupwizard.enable_bypass=1
 persist.sys.usb.config=mass_storage,adb
 
+# Additions
 com.ti.omap_enhancement=true
 hwui.render_dirty_regions=false
-
+ril.subscription.types=NV,RUIM
+ro.ril.moto.newarch=true
+persist.sys.root_access=3
+ro.hwc.legacy_api=true
+ro.product.use_charge_counter=1
