@@ -26,7 +26,6 @@ on init
 
 
     mkdir /pds 0775 system system
-    mkdir /data/tmp 0777 system system
     mkdir /preinstall 0771 system system
 
     mkdir /cdrom 0770 system system
@@ -184,6 +183,7 @@ on post-fs
     insmod /system/lib/modules/mac80211.ko
     insmod /system/lib/modules/wl12xx.ko
 on post-fs-data
+    mkdir /data/tmp 0777 system system
     copy /proc/apanic_app_threads /data/dontpanic/apanic_app_threads
     chown root log /data/dontpanic/apanic_app_threads
     chmod 0660 /data/dontpanic/apanic_app_threads
