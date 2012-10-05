@@ -1,6 +1,5 @@
 on early-init
 
-    export EXTERNAL_STORAGE /storage/sdcard0
     mkdir /storage 0050 system sdcard_r
     mkdir /storage/sdcard0 0000 system system
     mkdir /mnt 0775 root system
@@ -18,6 +17,7 @@ on init
     export ANDROID_CACHE /cache
     export DOWNLOAD_CACHE /cache/download
     export SD_EXT_DIRECTORY /sd-ext
+    export EXTERNAL_STORAGE /storage/sdcard0
     export SECONDARY_STORAGE /mnt/external1
 
     # create removable USB Mass Storage mountpoints
@@ -50,7 +50,7 @@ on init
 
 
 on fs
-    mount ext3 /dev/block/mmcblk1p24 /system wait noatime nodiratime barrier=1
+    mount ext3 /dev/block/system /system wait noatime nodiratime barrier=1
     mount ext3 /dev/block/pds /pds nosuid nodev noatime nodiratime
     mount ext3 /dev/block/userdata /data nosuid nodev noatime nodiratime
     mount ext3 /dev/block/cache /cache nosuid nodev noatime nodiratime
