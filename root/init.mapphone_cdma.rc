@@ -67,7 +67,7 @@ on post-fs
     chmod 0771 /preinstall
     chown system system /preinstall
 
-    mount ext3 /dev/block/mmcblk1p24 /system ro noatime nodiratime remount
+    mount ext3 /dev/block/system /system ro noatime nodiratime remount
     mount rootfs rootfs / rw remount
     symlink /dev/ttyGS0 /dev/acm0
 
