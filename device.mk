@@ -39,6 +39,9 @@ PRODUCT_COPY_FILES += \
 
 # Kexec files and ti ducati or rootfs files
 ifeq ($(BOARD_USES_KEXEC),true)
+ifeq ($(TARGET_PRODUCT),full_edison)
+PRODUCT_COPY_FILES += device/motorola/common/prebuilt/etc/rootfs/init:root/init
+endif
 PRODUCT_COPY_FILES += \
     $(DEVICE_FOLDER)/kexec/arm_kexec.ko:system/etc/kexec/arm_kexec.ko \
     $(DEVICE_FOLDER)/kexec/atags:system/etc/kexec/atags \
@@ -49,6 +52,11 @@ PRODUCT_COPY_FILES += \
     out/target/product/edison/ramdisk.img:system/etc/kexec/ramdisk.img \
     out/target/product/edison/kernel:system/etc/kexec/kernel
 else
+ifeq ($(TARGET_PRODUCT),full_edison)
+PRODUCT_COPY_FILES += device/motorola/common/prebuilt/etc/rootfs/init:system/etc/rootfs/init
+else
+PRODUCT_COPY_FILES += out/target/product/edison/root/init:system/etc/rootfs/init
+endif
 PRODUCT_COPY_FILES += \
     $(DEVICE_FOLDER)/root/default.prop:/system/etc/rootfs/default.prop \
     $(DEVICE_FOLDER)/root/init.rc:/root/init.rc \
@@ -57,7 +65,6 @@ PRODUCT_COPY_FILES += \
     $(DEVICE_FOLDER)/root/ueventd.rc:/system/etc/rootfs/ueventd.rc \
     $(DEVICE_FOLDER)/root/ueventd.mapphone_cdma.rc:/system/etc/rootfs/ueventd.mapphone_cdma.rc \
     $(DEVICE_FOLDER)/root/ueventd.mapphone_umts.rc:/system/etc/rootfs/ueventd.mapphone_umts.rc \
-    out/target/product/edison/root/init:system/etc/rootfs/init \
     out/target/product/edison/root/sbin/adbd:system/etc/rootfs/sbin/adbd
 endif
 
