@@ -183,5 +183,5 @@ persist.sys.root_access=3
 ro.hwc.legacy_api=true
 ro.product.use_charge_counter=1
 ro.telephony.ril.v3=signalstrength
-persist.ril.moto_oem=false
-persist.ril.imsi_fix=false
+persist.sys.moto_oem_telephony=false
+persist.sys.moto_imsi_fix=false
