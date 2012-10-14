@@ -185,3 +185,4 @@ ro.product.use_charge_counter=1
 ro.telephony.ril.v3=signalstrength
 persist.sys.moto_oem_telephony=false
 persist.sys.moto_imsi_fix=false
+ro.config.not_world_phone=true
