@@ -22,4 +22,5 @@
 
 add_lunch_combo aokp_edison-userdebug
 add_lunch_combo cm_edison-userdebug
+add_lunch_combo cna_edison-userdebug
 add_lunch_combo full_edison-userdebug
