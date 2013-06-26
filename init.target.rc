@@ -11,4 +11,3 @@ on init
     symlink /dev/block/mmcblk1p23 /dev/block/preinstall
     symlink /dev/block/mmcblk1p24 /dev/block/webtop
     symlink /dev/block/mmcblk1p25 /dev/block/userdataorig
-
