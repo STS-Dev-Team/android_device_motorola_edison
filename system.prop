@@ -100,3 +100,8 @@ ro.url.legal.android_privacy=http://www.google.com/intl/%s/mobile/android/basic/
 ro.mot.hidden_keyboards=evfwd
 ro.mot.build.version.sdk_int=6
 ro.mot.hw.fingerprint.enable=1
+
+ro.telephony.ril.v3=writeaidonly,signalstrength
+# Vold switchability uncomment second line to swap
+ro.vold.switchablepair=/storage/sdcard0,/storage/sdcard1
+#persist.sys.vold.switchexternal=1 
