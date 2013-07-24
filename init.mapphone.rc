@@ -550,9 +550,15 @@ service dnsmasq /system/bin/logwrapper /system/bin/dnsmasq -C/data/misc/wifi/dns
 
 service dbus /system/bin/dbus-daemon --system --nofork
     class main
-    socket dbus stream 660 bluetooth bluetooth
+    socket dbus stream 660 bluetooth radio
     user bluetooth
     group bluetooth net_bt_admin
+
+service atvc /system/bin/dbvc_atvc_property_set
+    class core
+    user system
+    group system mot_tpapi
+    oneshot
 
 # aplogd on at boot in emulator
 on property:ro.kernel.qemu=1
