@@ -1,7 +1,5 @@
 # (from edison JB 6.7.2_GC-384 leak)
-bin/akmd8975
-bin/ap_gain.bin
-bin/ap_gain_mmul.bin
+# system/bin
 bin/atrelay-ctrl.sh
 bin/bridge_relay
 bin/ecckeyd
@@ -22,10 +20,9 @@ bin/RxNDrv
 bin/TIDrv
 
 # system/etc
-etc/firmware/ducati-m3.bin
+etc/firmware/ap_bt_data.bin
 etc/firmware/fm_rx_init_1283.2.bts
 etc/firmware/fmc_init_1283.2.bts
-etc/firmware/TIInit_10.6.15.bts
 etc/gps/RxN/MSLConfig.txt
 etc/gps/RxN/license.key
 etc/gps/RxN/security.key
@@ -37,8 +34,7 @@ etc/omapcam/module2/cid1040_ov7739_sensor_config_dcc.bin
 etc/mfa.conf
 etc/mid.conf
 
-# system/lib/hw (rename audio.primary.omap4.so -> audio.primary.edison.so)
-lib/hw/audio.primary.omap4.so
+# system/lib/hw
 lib/hw/gps.edison.so
 lib/hw/sensors.edison.so
 
@@ -50,9 +46,6 @@ lib/libapr-1.so
 lib/libat.so
 lib/libaudioril.so
 lib/libbabysit.so
-lib/libbcbmsg.so
-lib/libbcc.so.sha1
-lib/libbt-aptx-4.0.3.so
 lib/libcap.so
 lib/libcdal.so
 lib/libconfig.so
@@ -81,4 +74,3 @@ lib/libusb.so
 usr/bin/gki_pd_notifier
 usr/bin/panic_daemon
 usr/keylayout/atmxt-i2c.kl
-
