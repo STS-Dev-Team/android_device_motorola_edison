@@ -7,8 +7,6 @@ $(call inherit-product, vendor/cm/config/common_full_phone.mk)
 # Inherit some common CM stuff.
 $(call inherit-product, vendor/cm/config/gsm.mk)
 
-DEVICE_PACKAGE_OVERLAYS += device/motorola/edison/overlay/cm
-
 #
 # Setup device specific product configuration.
 #
