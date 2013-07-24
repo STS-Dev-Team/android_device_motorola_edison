@@ -2,19 +2,83 @@
 bin/akmd8975
 bin/ap_gain.bin
 bin/ap_gain_mmul.bin
+bin/atrelay-ctrl.sh
+bin/bridge_relay
+bin/ecckeyd
+bin/ee_driver
+bin/fmradioserver
+bin/gkisystem
+bin/gps_driver
+bin/load_modules.sh
+bin/location
+bin/mfa
+bin/mfa_send
+bin/mid
+bin/mld
+bin/secclkd
+bin/smu
+bin/timedexec
+bin/RxNDrv
+bin/TIDrv
 
 # system/etc (from edison ICS 6.7.2-226)
 etc/firmware/ducati-m3.bin
+etc/firmware/fm_rx_init_1283.2.bts
+etc/firmware/fmc_init_1283.2.bts
 etc/firmware/TIInit_10.6.15.bts
+etc/gps/RxN/MSLConfig.txt
+etc/gps/RxN/license.key
+etc/gps/RxN/security.key
+etc/gps/ti/GPSCConfigFile.cfg
+etc/gps/ti/patch-X.0.ce
+etc/gps/ti/pathconfigfile.txt
+etc/location.cfg
+etc/omapcam/module2/cid1040_ov7739_sensor_config_dcc.bin
+etc/mfa.conf
+etc/mid.conf
 
-# system/lib/hw (from edison ICS 6.7.2-226 rename audio.primary.edison.so)
+# system/lib/hw (from edison ICS 6.7.2-226 rename audio.primary.omap4.so -> audio.primary.edison.so)
 lib/hw/audio.primary.omap4.so
-
-# system/usr (from edison ICS 6.7.2-226)
-usr/keylayout/atmxt-i2c.kl
-
-# system/lib/hw (from edison ICS 6.7.2-226)
+lib/hw/gps.edison.so
 lib/hw/sensors.edison.so
 
-# system/etc/omapcam/module2 (from edison ICS 6.7.2-226)
-etc/omapcam/module2/cid1040_ov7739_sensor_config_dcc.bin
+# system/lib (from edison ICS 6.7.2-226)
+lib/libFMRadio.so
+lib/libadkutils.so
+lib/libamcm.so
+lib/libapr-1.so
+lib/libat.so
+lib/libaudioril.so
+lib/libbabysit.so
+lib/libbcbmsg.so
+lib/libbcc.so.sha1
+lib/libbt-aptx-4.0.3.so
+lib/libcap.so
+lib/libcdal.so
+lib/libconfig.so
+lib/libdataencrypt.so
+lib/libfm_stack.so
+lib/libfmchr.so
+lib/libfmradio_jni.so
+lib/libfmradioplayer.so
+lib/libfrsdk.so
+lib/libgki.so
+lib/libgpsTI.so
+lib/liblcdriver.so
+lib/liblcm.so
+lib/libmcphal.so
+lib/libmcphalgps.so
+lib/libmoliU5xx.so
+lib/libmotodbgutils.so
+lib/libmss.so
+lib/libmss.so.sig
+lib/libpostcapimgproc_intf.so
+lib/libu300-parser.so
+lib/libu300-ril.so
+lib/libusb.so
+
+# system/usr (from edison ICS 6.7.2-226)
+usr/bin/gki_pd_notifier
+usr/bin/panic_daemon
+usr/keylayout/atmxt-i2c.kl
+
