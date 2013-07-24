@@ -1,4 +1,4 @@
-# (from edison ICS 6.7.2-226)
+# (from edison JB 6.7.2_GC-384 leak)
 bin/akmd8975
 bin/ap_gain.bin
 bin/ap_gain_mmul.bin
@@ -21,7 +21,7 @@ bin/timedexec
 bin/RxNDrv
 bin/TIDrv
 
-# system/etc (from edison ICS 6.7.2-226)
+# system/etc
 etc/firmware/ducati-m3.bin
 etc/firmware/fm_rx_init_1283.2.bts
 etc/firmware/fmc_init_1283.2.bts
@@ -37,12 +37,12 @@ etc/omapcam/module2/cid1040_ov7739_sensor_config_dcc.bin
 etc/mfa.conf
 etc/mid.conf
 
-# system/lib/hw (from edison ICS 6.7.2-226 rename audio.primary.omap4.so -> audio.primary.edison.so)
+# system/lib/hw (rename audio.primary.omap4.so -> audio.primary.edison.so)
 lib/hw/audio.primary.omap4.so
 lib/hw/gps.edison.so
 lib/hw/sensors.edison.so
 
-# system/lib (from edison ICS 6.7.2-226)
+# system/lib
 lib/libFMRadio.so
 lib/libadkutils.so
 lib/libamcm.so
@@ -77,7 +77,7 @@ lib/libu300-parser.so
 lib/libu300-ril.so
 lib/libusb.so
 
-# system/usr (from edison ICS 6.7.2-226)
+# system/usr
 usr/bin/gki_pd_notifier
 usr/bin/panic_daemon
 usr/keylayout/atmxt-i2c.kl
