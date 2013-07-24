@@ -3,20 +3,19 @@ on init
 
 loglevel 8
 
-    export EXTERNAL_STORAGE /storage/sdcard1
-    export SECONDARY_STORAGE /storage/sdcard0
+    export EXTERNAL_STORAGE /storage/sdcard0
 
     mkdir /storage/sdcard0 0000 system system
-    mkdir /storage/sdcard1 0000 system system
     # for backwards compatibility
-    symlink /storage/sdcard1 /sdcard
-    symlink /storage/sdcard1 /mnt/sdcard
+    symlink /storage/sdcard0 /sdcard
+    symlink /storage/sdcard0 /mnt/sdcard
 
     # create removable USB Mass Storage mountpoints
     mkdir /storage/usb0 0000 system system
     mkdir /storage/usb1 0000 system system
 
     mkdir /pds 0775 system system
+    mkdir /data/tmp 0777 system system
     mkdir /preinstall 0771 system system
     mkdir /cdrom 0770 system system
 
@@ -30,15 +29,12 @@ loglevel 8
     chown system radio /sys/class/radio/mdm6600/command
 
 on fs
-# begin SS3 setup
-    mount rootfs rootfs / rw remount
-    mkdir /ss 0777 root root
-    mount vfat /dev/block/mmcblk1p25 /ss
-# end SS3 setup
-    mount ext3 loop@/ss/safestrap/rom-slot1/system.img /system wait noatime nodiratime barrier=1
-    mount ext3 loop@/ss/safestrap/rom-slot1/userdata.img /data nosuid nodev noatime nodiratime
-    mount ext3 loop@/ss/safestrap/rom-slot1/cache.img /cache nosuid nodev noatime nodiratime
-    mount ext3 /dev/block/pds /pds nosuid nodev noatime nodiratime
+    mount ext3 /dev/block/mmcblk1p21 /system wait noatime nodiratime barrier=1
+    mount ext3 /dev/block/mmcblk1p7 /pds nosuid nodev noatime nodiratime
+    mount ext3 /dev/block/mmcblk1p25 /data nosuid nodev noatime nodiratime
+    mount ext3 /dev/block/mmcblk1p22 /cache nosuid nodev noatime nodiratime
+    mount ext3 /dev/block/mmcblk1p23 /preinstall nosuid nodev noatime nodiratime
+
 on post-fs
 # Enable PVR modules
     insmod /system/lib/modules/pvrsrvkm_sgx540_120.ko
@@ -47,7 +43,7 @@ on post-fs
     chown system system /pds
     chmod 0775 /pds
 
-    mount ext3 /dev/block/system /system ro noatime nodiratime remount
+    mount ext3 /dev/block/mmcblk1p21 /system ro noatime nodiratime remount
     mount rootfs rootfs / rw remount
 # Backward compatibility
     symlink /dev /dev/netmux
@@ -166,10 +162,8 @@ on post-fs
 # Install kernel modules
 # Install product specific kernel modules
     exec /system/bin/load_modules.sh
-# chown/chmod for FOTA
-    chown system system /cache/fota
-    chmod 0770 /cache/fota
 # Load BT userspace driver
+    insmod /system/lib/modules/btwilink.ko
     insmod /system/lib/modules/tty_hci.ko
 # Load wifi drivers (all except wl12xx_sdio)
     mkdir /data/misc/wifi/sockets 0770 wifi wifi
@@ -182,7 +176,6 @@ on post-fs
     exec /system/bin/motobox mkswap /dev/block/zram0
     exec /system/bin/motobox swapon /dev/block/zram0
 on post-fs-data
-    mkdir /data/tmp 0777 system system
     copy /proc/apanic_app_threads /data/dontpanic/apanic_app_threads
     chown root log /data/dontpanic/apanic_app_threads
     chmod 0660 /data/dontpanic/apanic_app_threads
@@ -554,6 +547,13 @@ service dnsmasq /system/bin/logwrapper /system/bin/dnsmasq -C/data/misc/wifi/dns
     group wifi
     disabled
     oneshot
+
+service dbus /system/bin/dbus-daemon --system --nofork
+    class main
+    socket dbus stream 660 bluetooth bluetooth
+    user bluetooth
+    group bluetooth net_bt_admin
+
 # aplogd on at boot in emulator
 on property:ro.kernel.qemu=1
     start aplogd
@@ -595,9 +595,9 @@ service locEe /system/bin/ee_driver
     user radio
     group radio inet sdcard_rw
 on property:sys.shutdown.requested=1
-    term mid
+    stop mid
 on property:sys.shutdown.requested=0
-    term mid
+    stop mid
 service mid /system/bin/mid --cfg /system/etc/mid.conf
     class core
     user root
