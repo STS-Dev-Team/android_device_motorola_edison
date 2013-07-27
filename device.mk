@@ -52,6 +52,7 @@ PRODUCT_COPY_FILES += \
 # Prebuilts
 PRODUCT_COPY_FILES += \
     $(DEVICE_FOLDER)/apns-conf.xml:system/etc/apns-conf.xml \
+    $(DEVICE_FOLDER)/gps.conf:system/etc/gps.conf \
     $(DEVICE_FOLDER)/media_profiles.xml:system/etc/media_profiles.xml \
     $(DEVICE_FOLDER)/vold.fstab:system/etc/vold.fstab
 
