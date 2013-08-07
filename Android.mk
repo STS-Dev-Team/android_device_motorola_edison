@@ -13,5 +13,17 @@
 # limitations under the License.
 
 ifeq ($(TARGET_DEVICE),edison)
-    include $(all-subdir-makefiles)
+
+LOCAL_PATH:= $(call my-dir)
+
+include $(CLEAR_VARS)
+LOCAL_MODULE       := fstab.mapphone_umts
+LOCAL_MODULE_TAGS  := optional eng
+LOCAL_MODULE_CLASS := ETC
+LOCAL_SRC_FILES    := fstab.mapphone_umts
+LOCAL_MODULE_PATH  := $(TARGET_ROOT_OUT)
+include $(BUILD_PREBUILT)
+
+include $(all-subdir-makefiles)
+
 endif
