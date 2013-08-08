@@ -2,6 +2,7 @@
 # system/bin
 bin/atrelay-ctrl.sh
 bin/bridge_relay
+bin/dbus-daemon
 bin/ecckeyd
 bin/ee_driver
 bin/fmradioserver
@@ -20,6 +21,7 @@ bin/RxNDrv
 bin/TIDrv
 
 # system/etc
+etc/dbus.conf
 etc/firmware/ap_bt_data.bin
 etc/firmware/fm_rx_init_1283.2.bts
 etc/firmware/fmc_init_1283.2.bts
@@ -50,6 +52,7 @@ lib/libcap.so
 lib/libcdal.so
 lib/libconfig.so
 lib/libdataencrypt.so
+lib/libdbus.so
 lib/libfm_stack.so
 lib/libfmchr.so
 lib/libfmradio_jni.so
@@ -66,6 +69,7 @@ lib/libmotodbgutils.so
 lib/libmss.so
 lib/libmss.so.sig
 lib/libpostcapimgproc_intf.so
+lib/libtinyxml_stl.so
 lib/libu300-parser.so
 lib/libu300-ril.so
 lib/libusb.so
