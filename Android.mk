@@ -24,6 +24,6 @@ LOCAL_SRC_FILES    := fstab.mapphone_umts
 LOCAL_MODULE_PATH  := $(TARGET_ROOT_OUT)
 include $(BUILD_PREBUILT)
 
-include $(all-subdir-makefiles)
-
 endif
+
+include $(call all-makefiles-under,$(LOCAL_PATH))
