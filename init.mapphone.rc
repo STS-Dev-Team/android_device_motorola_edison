@@ -1,5 +1,4 @@
 on init
-    exec /sbin/fixboot.sh
 
 loglevel 8
 
@@ -15,7 +14,6 @@ loglevel 8
     mkdir /storage/usb1 0000 system system
 
     mkdir /pds 0775 system system
-    mkdir /data/tmp 0777 system system
     mkdir /preinstall 0771 system system
     mkdir /cdrom 0770 system system
 
@@ -29,12 +27,8 @@ loglevel 8
     chown system radio /sys/class/radio/mdm6600/command
 
 on fs
-mount_all /fstab.mapphone_umts
-    mount ext3 /dev/block/mmcblk1p21 /system wait noatime nodiratime barrier=1
-    mount ext3 /dev/block/mmcblk1p7 /pds nosuid nodev noatime nodiratime
-    mount ext3 /dev/block/mmcblk1p25 /data nosuid nodev noatime nodiratime
-    mount ext3 /dev/block/mmcblk1p22 /cache nosuid nodev noatime nodiratime
-    mount ext3 /dev/block/mmcblk1p23 /preinstall nosuid nodev noatime nodiratime
+    exec /sbin/fixboot.sh
+    mount_all /fstab.mapphone_umts
 
 on post-fs
 # Enable PVR modules
@@ -85,11 +79,6 @@ on post-fs
     write /sys/class/rtc/rtc0/unsecured_rtc on
     # Disable a system-wide task dump on OOM in default
     write /proc/sys/vm/oom_dump_tasks 0
-    write /proc/sys/fs/suid_dumpable 2
-    # Set core pattern
-    write /proc/sys/kernel/core_pattern "|/system/bin/coredump %e %p %t"
-    # Set core filter
-    write /proc/self/coredump_filter "0x7f"
     # Power Management
     write /sys/devices/w1\ bus\ master/w1_master_search 2
     write /sys/devices/system/cpu/cpu0/cpuidle/enable_state 1
@@ -137,6 +126,8 @@ on post-fs
     chown bluetooth net_bt_stack /sys/class/rfkill/rfkill0/type
     chown bluetooth net_bt_stack /sys/class/rfkill/rfkill0/state
     chmod 0660 /sys/class/rfkill/rfkill0/state
+    restorecon /sys/class/rfkill/rfkill0/state
+    restorecon /sys/class/rfkill/rfkill0/type
     chown bluetooth net_bt_stack /dev/ttyO1
     chmod 0660 /dev/ttyO1
     # following dir is for storing BP Flex and PDS files. NVM Daemon is using this
@@ -160,6 +151,7 @@ on post-fs
 # Permission for USB
     chown root mot_usb /proc/mtpctl
     chmod 0660 /proc/mtpctl
+    restorecon /system/etc/firmware/ducati-m3.bin
 # Install kernel modules
 # Install product specific kernel modules
     exec /system/bin/load_modules.sh
@@ -177,11 +169,7 @@ on post-fs
     exec /system/bin/motobox mkswap /dev/block/zram0
     exec /system/bin/motobox swapon /dev/block/zram0
 on post-fs-data
-    copy /proc/apanic_app_threads /data/dontpanic/apanic_app_threads
-    chown root log /data/dontpanic/apanic_app_threads
-    chmod 0660 /data/dontpanic/apanic_app_threads
-# To remove apanic proc entry
-    write /proc/apanic_console 1
+    mkdir /data/tmp 0777 system system
     chown system system /mnt/sdcard # Feature 34534
     chmod 0777 /mnt/sdcard # Feature 34534
 #Set the default value for bluedroid_ref
@@ -542,25 +530,16 @@ on property:sys.chargeonly.mode=1
     start whisperd
     start charge_only_mode
 # Power up to suspend
-
-service dnsmasq /system/bin/logwrapper /system/bin/dnsmasq -C/data/misc/wifi/dns.conf -k
-    class main
-    group wifi
-    disabled
-    oneshot
-
 service dbus /system/bin/dbus-daemon --system --nofork
     class main
-    socket dbus stream 660 bluetooth radio
+    socket dbus stream 666 bluetooth radio
     user bluetooth
     group bluetooth net_bt_admin
-
 service atvc /system/bin/dbvc_atvc_property_set
     class core
     user system
     group system mot_tpapi
     oneshot
-
 # aplogd on at boot in emulator
 on property:ro.kernel.qemu=1
     start aplogd
@@ -608,7 +587,7 @@ on property:sys.shutdown.requested=0
 service mid /system/bin/mid --cfg /system/etc/mid.conf
     class core
     user root
-    group root
+    group root radio
     oneshot
 service mfa /system/bin/mfa -m /cache/ste/modem --noslave
     user system
@@ -666,52 +645,6 @@ service uim /system/bin/uim-sysfs
     class core
     user root
     group bluetooth net_bt_admin
-service hciattach /system/bin/hciattach -l
-    class main
-    user bluetooth
-    group bluetooth net_bt_admin
-    disabled
-    oneshot
-service nap /system/bin/sdptool add NAP
-    class main
-    user bluetooth
-    group bluetooth net_bt_admin
-    disabled
-    oneshot
-service del_nap /system/bin/sdptool remove NAP
-    class main
-    user bluetooth
-    group bluetooth net_bt_admin
-    disabled
-    oneshot
-service panu /system/bin/sdptool add PANU
-    class main
-    user bluetooth
-    group bluetooth net_bt_admin
-    disabled
-    oneshot
-service del_panu /system/bin/sdptool remove PANU
-    class main
-    user bluetooth
-    group bluetooth net_bt_admin
-    disabled
-    oneshot
-service napics /system/bin/sh /system/bin/napics.sh
-    class main
-    user root
-    disabled
-    oneshot
-service btdhcpd /system/bin/dnsmasq -C /system/etc/btpan.conf
-    class main
-    user root
-    disabled
-    oneshot
-service map /system/bin/sdptool add --channel=20 --network=2 MAP
-    class main
-    user bluetooth
-    group bluetooth net_bt_admin
-    disabled
-    oneshot
 # Ecompass daemon
 service akmd8975 /system/bin/akmd8975
     class main
@@ -746,11 +679,11 @@ service iprenew_p2p /system/bin/dhcpcd -n
     class main
     disabled
     oneshot
-service iprenew_bnep0 /system/bin/dhcpcd -n
+service iprenew_bt-pan /system/bin/dhcpcd -n
 	class main
 	disabled
 	oneshot
-service dhcpcd_bnep0 /system/bin/dhcpcd -ABKL
+service dhcpcd_bt-pan /system/bin/dhcpcd -ABKL
     class main
     disabled
     oneshot
@@ -767,6 +700,7 @@ service pvrsrv /system/vendor/bin/pvrsrvinit
     class core
     user root
     group root
+    seclabel u:r:pvrsrvinit:s0
     oneshot
 service pppd-ril /system/bin/pppd-ril /dev/ttyUSB0 call pppd-ril.options plugin /system/lib/libpppd_plugin-ril.so
     class main
@@ -798,16 +732,6 @@ service aplogd /system/bin/aplogd
     # to log plus those groups after preserving CAP_SYS_ADMIN, which is required
     # for kernel logging.
     disabled
-service fmradio /system/bin/fmradioserver
-    class main
-    user system
-    group bluetooth net_bt_admin net_raw net_admin misc
-    disabled
-service dund_dialup /system/bin/dund --listen --channel=6 --nodetach --dialup
-    class main
-    group net_bt net_bt_admin
-    disabled
-    oneshot
 service secclkd /system/bin/secclkd
     class main
     socket secclk_socket stream 660 mot_secclkd mot_secclkd radio
