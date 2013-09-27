@@ -42,5 +42,5 @@ $(call inherit-product, device/motorola/edison/device.mk)
 PRODUCT_NAME := full_edison
 PRODUCT_DEVICE := edison
 PRODUCT_BRAND := ATT
-PRODUCT_MANUFACTURER := MOTO
+PRODUCT_MANUFACTURER := Motorola
 PRODUCT_MODEL := ATRIX 2
